@@ -29,6 +29,8 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    sourceSets["main"].jniLibs.srcDirs("libs")
 }
 
 dependencies {

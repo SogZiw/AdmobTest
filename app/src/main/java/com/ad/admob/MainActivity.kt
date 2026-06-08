@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     fun loadAppOpen(adPlacementId: String) {
         adScope.launch {
-            AdUtils.loadAppOpenAd(adPlacementId) { map ->
+            val isLoadSucceed = AdUtils.loadAppOpenAd(adPlacementId) { map ->
 
             }
         }
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     fun loadInterstitial(adPlacementId: String) {
         adScope.launch {
-            AdUtils.loadInterstitialAd(adPlacementId) { map ->
+            val isLoadSucceed = AdUtils.loadInterstitialAd(adPlacementId) { map ->
 
             }
         }

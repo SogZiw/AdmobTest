@@ -10,7 +10,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.ad.admob"
+        applicationId = "com.read.pdf.check.aaa.test"
         minSdk = 26
         targetSdk = 36
         versionCode = 1

@@ -15,16 +15,16 @@ import kotlin.coroutines.resume
 
 object AdUtils {
 
-    // key为:adPlacementId，value:广告对象
+    // key为:adPosId，value:广告对象
     val adCaches = hashMapOf<String, Any>()
 
-    fun isAdCached(adPlacementId: String): Boolean {
-        val adItem = adCaches.get(adPlacementId)
+    fun isAdCached(adPosId: String): Boolean {
+        val adItem = adCaches.get(adPosId)
         return adItem != null
     }
 
-    fun fetchPrice(adPlacementId: String, path: String): Long {
-        val adItem = adCaches.get(adPlacementId) ?: return -1L
+    fun fetchPrice(adPosId: String, path: String): Long {
+        val adItem = adCaches.get(adPosId) ?: return -1L
         return runCatching {
             return@runCatching MainContainer.compact(app, adItem, path)
         }.getOrNull() ?: -1L
@@ -34,7 +34,7 @@ object AdUtils {
         return TPOutcome().isTPW(admobRevenue, tpAdId)
     }
 
-    suspend fun loadAppOpenAd(adPlacementId: String, onAdPaid: (map: HashMap<String, Any>) -> Unit) = suspendCancellableCoroutine { continuation ->
+    suspend fun loadAppOpenAd(adPosId: String, adPlacementId: String, onAdPaid: (map: HashMap<String, Any>) -> Unit) = suspendCancellableCoroutine { continuation ->
         AppOpenAd.load(app, adPlacementId, AdRequest.Builder().build(), object : AppOpenAd.AppOpenAdLoadCallback() {
             override fun onAdLoaded(ad: AppOpenAd) {
                 ad.setOnPaidEventListener { adValue ->
@@ -44,10 +44,12 @@ object AdUtils {
                             "valueMicros" to adValue.valueMicros,
                             "currencyCode" to adValue.currencyCode,
                             "adPlacementId" to adPlacementId,
+                            "adPodId" to adPosId,
+                            "adType" to "open"
                         )
                     )
                 }
-                adCaches[adPlacementId] = ad
+                adCaches[adPosId] = ad
                 continuation.resume(true)
             }
 
@@ -57,7 +59,7 @@ object AdUtils {
         })
     }
 
-    suspend fun loadInterstitialAd(adPlacementId: String, onAdPaid: (map: HashMap<String, Any>) -> Unit) = suspendCancellableCoroutine { continuation ->
+    suspend fun loadInterstitialAd(adPosId: String, adPlacementId: String, onAdPaid: (map: HashMap<String, Any>) -> Unit) = suspendCancellableCoroutine { continuation ->
         InterstitialAd.load(app, adPlacementId, AdRequest.Builder().build(), object : InterstitialAdLoadCallback() {
             override fun onAdLoaded(ad: InterstitialAd) {
                 ad.setOnPaidEventListener { adValue ->
@@ -67,10 +69,12 @@ object AdUtils {
                             "valueMicros" to adValue.valueMicros,
                             "currencyCode" to adValue.currencyCode,
                             "adPlacementId" to adPlacementId,
+                            "adPodId" to adPosId,
+                            "adType" to "interstitial"
                         )
                     )
                 }
-                adCaches[adPlacementId] = ad
+                adCaches[adPosId] = ad
                 continuation.resume(true)
             }
 
@@ -80,8 +84,8 @@ object AdUtils {
         })
     }
 
-    fun showFullscreenAd(adPlacementId: String, activity: Activity, block: SimpleFullScreenCallback) {
-        val adItem = adCaches.remove(adPlacementId)
+    fun showFullscreenAd(adPosId: String, activity: Activity, block: SimpleFullScreenCallback) {
+        val adItem = adCaches.remove(adPosId)
         if (null == adItem) {
             block.onAdDismissed()
             return

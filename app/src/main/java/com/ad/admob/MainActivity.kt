@@ -29,24 +29,24 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun loadAppOpen(adPlacementId: String) {
+    fun loadAppOpen(adPosId: String, adPlacementId: String) {
         adScope.launch {
-            val isLoadSucceed = AdUtils.loadAppOpenAd(adPlacementId) { map ->
+            val isLoadSucceed = AdUtils.loadAppOpenAd(adPosId, adPlacementId) { map ->
 
             }
         }
     }
 
-    fun loadInterstitial(adPlacementId: String) {
+    fun loadInterstitial(adPosId: String, adPlacementId: String) {
         adScope.launch {
-            val isLoadSucceed = AdUtils.loadInterstitialAd(adPlacementId) { map ->
+            val isLoadSucceed = AdUtils.loadInterstitialAd(adPosId, adPlacementId) { map ->
 
             }
         }
     }
 
-    fun showFullScreenAd(adPlacementId: String) {
-        AdUtils.showFullscreenAd(adPlacementId, this, object : SimpleFullScreenCallback() {
+    fun showFullScreenAd(adPosId: String) {
+        AdUtils.showFullscreenAd(adPosId, this, object : SimpleFullScreenCallback() {
             override fun onAdClicked() {
 
             }

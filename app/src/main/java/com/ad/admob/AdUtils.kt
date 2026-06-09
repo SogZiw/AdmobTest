@@ -44,7 +44,7 @@ object AdUtils {
                             "valueMicros" to adValue.valueMicros,
                             "currencyCode" to adValue.currencyCode,
                             "adPlacementId" to adPlacementId,
-                            "adPodId" to adPosId,
+                            "adPosId" to adPosId,
                             "adType" to "open"
                         )
                     )
@@ -69,7 +69,7 @@ object AdUtils {
                             "valueMicros" to adValue.valueMicros,
                             "currencyCode" to adValue.currencyCode,
                             "adPlacementId" to adPlacementId,
-                            "adPodId" to adPosId,
+                            "adPosId" to adPosId,
                             "adType" to "interstitial"
                         )
                     )
